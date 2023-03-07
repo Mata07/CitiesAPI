@@ -1,11 +1,16 @@
-﻿using Hp.Data.Entities;
+﻿using AutoMapper;
+using Hp.Data;
+using Hp.Data.Entities;
+using Hp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service;
 using Service.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CityApi.Controllers
@@ -15,10 +20,12 @@ namespace CityApi.Controllers
     public class GradoviController : ControllerBase
     {
         private readonly IGradoviService _gradoviService;
+        private readonly IMapper _mapper;
 
-        public GradoviController(IGradoviService gradoviService)
+        public GradoviController(IGradoviService gradoviService, IMapper mapper)
         {
             _gradoviService = gradoviService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,7 +34,15 @@ namespace CityApi.Controllers
         {
             try
             {
-                return Ok(await _gradoviService.GetAllGradovi());
+                IEnumerable<SifrarnikGradovaZaPbr> gradoviDb = await _gradoviService.GetAllGradovi();
+                if (gradoviDb != null)
+                {
+                    return Ok(_mapper.Map<List<SifrarnikGradovaZaPbrReadModel>>(gradoviDb));
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch
             {
@@ -45,14 +60,14 @@ namespace CityApi.Controllers
 
             try
             {
-                var grad = await _gradoviService.GetGradById(id);
+                var gradDb = await _gradoviService.GetGradById(id);
 
-                if (grad == null)
+                if (gradDb == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(grad);
+                return Ok(_mapper.Map<SifrarnikGradovaZaPbrReadModel>(gradDb));
 
             }
             catch (Exception)
@@ -60,5 +75,11 @@ namespace CityApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+
+
+
+
+
     }
 }
