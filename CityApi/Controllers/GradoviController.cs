@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Hp.Data;
 using Hp.Data.Entities;
 using Hp.Domain.Models;
 using Microsoft.AspNetCore.Http;
