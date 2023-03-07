@@ -8,7 +8,11 @@ namespace Hp.Data
 {
     public partial class HpContext : DbContext
     {
-        
+        public HpContext()
+        {
+            
+        }
+
         public HpContext(DbContextOptions<HpContext> options)
             : base(options)
         {
