@@ -17,9 +17,9 @@ namespace Hp.Data
         #region Generated Properties
         public virtual DbSet<Hp.Data.Entities.SifrarnikGradovaZaPbr> SifrarnikGradovaZaPbrs { get; set; }
 
-        public virtual DbSet<Hp.Data.Entities.SifrarnikPbrGrad> SifrarnikPbrGrads { get; set; }
+        //public virtual DbSet<Hp.Data.Entities.SifrarnikPbrGrad> SifrarnikPbrGrads { get; set; }
 
-        public virtual DbSet<Hp.Data.Entities.SifrarnikPbrNaselje> SifrarnikPbrNaseljes { get; set; }
+        //public virtual DbSet<Hp.Data.Entities.SifrarnikPbrNaselje> SifrarnikPbrNaseljes { get; set; }
 
         #endregion
 
@@ -27,8 +27,8 @@ namespace Hp.Data
         {
             #region Generated Configuration
             modelBuilder.ApplyConfiguration(new Hp.Data.Mapping.SifrarnikGradovaZaPbrMap());
-            modelBuilder.ApplyConfiguration(new Hp.Data.Mapping.SifrarnikPbrGradMap());
-            modelBuilder.ApplyConfiguration(new Hp.Data.Mapping.SifrarnikPbrNaseljeMap());
+            //modelBuilder.ApplyConfiguration(new Hp.Data.Mapping.SifrarnikPbrGradMap());
+            //modelBuilder.ApplyConfiguration(new Hp.Data.Mapping.SifrarnikPbrNaseljeMap());
             #endregion
         }
 

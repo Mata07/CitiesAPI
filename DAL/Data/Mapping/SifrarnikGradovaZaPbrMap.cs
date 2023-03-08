@@ -14,14 +14,15 @@ namespace Hp.Data.Mapping
             builder.ToTable("SIFRARNIK_GRADOVA_ZA_PBR", "dbo");
 
             // key
-            builder.HasNoKey();
+            //builder.HasNoKey();
+            //builder.HasKey(t => t.Id);
 
             // properties
             builder.Property(t => t.Id)
-                .IsRequired()
+                //.IsRequired()
                 .HasColumnName("ID")
-                .HasColumnType("int")
-                .ValueGeneratedOnAdd();
+                .HasColumnType("int");
+                //.ValueGeneratedOnAdd();
 
             builder.Property(t => t.Pbr)
                 .HasColumnName("PBR")

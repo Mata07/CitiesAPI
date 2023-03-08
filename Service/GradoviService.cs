@@ -1,4 +1,5 @@
 ﻿using Hp.Data.Entities;
+using Hp.Domain.Models;
 using Repository;
 using Repository.Common;
 using Service.Common;
@@ -42,5 +43,21 @@ namespace Service
                 return null;
             }
         }
+
+        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbrCreateModel grad)
+        {
+            //try
+            //{
+                return await _gradoviRepository.CreateGrad(grad);
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+        }
+
+
+
+
     }
 }

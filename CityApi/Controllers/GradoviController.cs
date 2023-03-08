@@ -28,8 +28,8 @@ namespace CityApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public async Task<IActionResult> GetGradovi()
+        //[Route("GetAll")]
+        public async Task<IActionResult> GetAllGradovi()
         {
             try
             {
@@ -76,8 +76,32 @@ namespace CityApi.Controllers
         }
 
 
+        [HttpPost]
+        [Route("Create")]
+        public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
+        {
+            // kreiraj novi grad
+            var noviGrad = await _gradoviService.CreateGrad(createGradDto);
 
+            // mapiraj na ReadModel za prikaz
+            var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(noviGrad);
 
+            // vraća napravljeni grad i GetGrad (byID) Akciju
+            return CreatedAtAction(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
+        }
+
+        //[HttpPost]
+        //[Route("Create")]
+        //public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
+        //{
+        //    var grad = _mapper.Map<SifrarnikGradovaZaPbr>(createGradDto);
+        //    await _gradoviService.CreateGrad(grad);
+
+        //    var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(grad);
+
+        //    // vraća napravljeni grad
+        //    return CreatedAtRoute(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
+        //}
 
 
     }

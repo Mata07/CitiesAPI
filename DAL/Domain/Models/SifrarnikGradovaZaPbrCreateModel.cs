@@ -6,7 +6,7 @@ namespace Hp.Domain.Models
     public partial class SifrarnikGradovaZaPbrCreateModel
     {
         #region Generated Properties
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public int? Pbr { get; set; }
 
