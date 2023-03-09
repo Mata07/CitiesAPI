@@ -49,7 +49,7 @@ namespace CityApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetGrad/{id}")]
         public async Task<IActionResult> GetGrad(int id)
         {
             if (id == 0)
@@ -76,32 +76,39 @@ namespace CityApi.Controllers
         }
 
 
-        [HttpPost]
-        [Route("Create")]
-        public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
-        {
-            // kreiraj novi grad
-            var noviGrad = await _gradoviService.CreateGrad(createGradDto);
-
-            // mapiraj na ReadModel za prikaz
-            var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(noviGrad);
-
-            // vraća napravljeni grad i GetGrad (byID) Akciju
-            return CreatedAtAction(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
-        }
-
         //[HttpPost]
         //[Route("Create")]
         //public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
         //{
-        //    var grad = _mapper.Map<SifrarnikGradovaZaPbr>(createGradDto);
-        //    await _gradoviService.CreateGrad(grad);
+        //    // kreiraj novi grad
+        //    var noviGrad = await _gradoviService.CreateGrad(createGradDto);
 
-        //    var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(grad);
+        //    // mapiraj na ReadModel za prikaz
+        //    var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(noviGrad);
 
-        //    // vraća napravljeni grad
-        //    return CreatedAtRoute(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
+        //    // vraća napravljeni grad i GetGrad (byID) Akciju
+        //    return CreatedAtAction(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
         //}
+
+        [HttpPost]
+        [Route("Create")]
+        public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
+        {
+            try
+            {
+                var grad = _mapper.Map<SifrarnikGradovaZaPbr>(createGradDto);
+                var noviGrad = await _gradoviService.CreateGrad(grad);
+
+                var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(noviGrad);
+
+                // vraća napravljeni grad
+                return CreatedAtAction(nameof(GetGrad), new { id = gradReadDto.Id }, gradReadDto);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
 
     }

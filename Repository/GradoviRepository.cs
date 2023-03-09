@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Hp.Data;
 using Hp.Data.Entities;
-using Hp.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Common;
 using System;
@@ -15,12 +14,12 @@ namespace Repository
     public class GradoviRepository : IGradoviRepository
     {
         private readonly HpContext _context;
-        private readonly IMapper _mapper;
+
 
         public GradoviRepository(HpContext context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;
+
         }
 
 
@@ -50,24 +49,13 @@ namespace Repository
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbrCreateModel grad)
+        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad)
         {
             try
             {
-                //var gradoviDb = await _context.SifrarnikGradovaZaPbrs.ToListAsync();
-                //var gradDb = gradoviDb.Last();
-                //grad.Id = gradDb.Id + 1;
-                //await _context.SifrarnikGradovaZaPbrs.AddAsync(grad);
-                //await _context.SaveChangesAsync();
-                //return grad;
-                var gradoviDb = await _context.SifrarnikGradovaZaPbrs.ToListAsync();
-                var gradDb = gradoviDb.Last();
-                //grad.Id = gradDb.Id + 1;
-                var grad2 = _mapper.Map<SifrarnikGradovaZaPbr>(grad);
-                //grad2.Id = gradDb.Id + 1; 
-                await _context.SifrarnikGradovaZaPbrs.AddAsync(grad2);
+                await _context.SifrarnikGradovaZaPbrs.AddAsync(grad);
                 await _context.SaveChangesAsync();
-                return grad2;
+                return grad;
             }
             catch
             {

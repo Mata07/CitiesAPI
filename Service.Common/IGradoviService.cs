@@ -11,6 +11,6 @@ namespace Service.Common
     {
         Task<IEnumerable<SifrarnikGradovaZaPbr>> GetAllGradovi();
         Task<SifrarnikGradovaZaPbr> GetGradById(int id);
-        Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbrCreateModel grad);
+        Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad);
     }
 }

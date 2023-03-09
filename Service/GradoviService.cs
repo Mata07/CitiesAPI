@@ -44,16 +44,16 @@ namespace Service
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbrCreateModel grad)
+        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad)
         {
-            //try
-            //{
+            try
+            {
                 return await _gradoviRepository.CreateGrad(grad);
-            //}
-            //catch
-            //{
-            //    return null;
-            //}
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 

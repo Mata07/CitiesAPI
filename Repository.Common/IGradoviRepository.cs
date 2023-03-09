@@ -11,7 +11,7 @@ namespace Repository.Common
     {
         Task<IEnumerable<SifrarnikGradovaZaPbr>> GetAllGradovi(); 
         Task<SifrarnikGradovaZaPbr> GetGradById(int id);
-        Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbrCreateModel grad);
+        Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad);
         Task<SifrarnikGradovaZaPbr> UpdateGrad(SifrarnikGradovaZaPbr grad);
         Task DeleteGrad(int id);
     }

@@ -18,7 +18,9 @@ namespace CityApi.AutoMapper
 
             CreateMap<SifrarnikGradovaZaPbrReadModel, SifrarnikGradovaZaPbrUpdateModel>();
 
-            CreateMap<SifrarnikGradovaZaPbrCreateModel, SifrarnikGradovaZaPbrReadModel>().ReverseMap();
+            CreateMap<SifrarnikGradovaZaPbrCreateModel, SifrarnikGradovaZaPbrReadModel>();
+            
+
 
         }
     }
