@@ -63,14 +63,64 @@ namespace Repository
             }
         }
 
-        public Task<SifrarnikGradovaZaPbr> UpdateGrad(SifrarnikGradovaZaPbr grad)
+        public async Task<SifrarnikGradovaZaPbr> UpdateGrad(SifrarnikGradovaZaPbr updatedGrad)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SifrarnikGradovaZaPbr gradDb = await _context.SifrarnikGradovaZaPbrs.FirstOrDefaultAsync(g => g.Id == updatedGrad.Id);
+
+                gradDb.Pbr = updatedGrad.Pbr;
+                gradDb.Naziv = updatedGrad.Naziv;
+                gradDb.Zupanija = updatedGrad.Zupanija;
+
+                _context.SifrarnikGradovaZaPbrs.Update(gradDb);
+                await _context.SaveChangesAsync();
+                return gradDb;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public Task DeleteGrad(int id)
+        public async Task<SifrarnikGradovaZaPbr> UpdateGradById(int id, SifrarnikGradovaZaPbr updatedGrad)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var gradDb = await _context.SifrarnikGradovaZaPbrs.FirstOrDefaultAsync(g => g.Id == updatedGrad.Id);
+                if (gradDb != null)
+                {
+                    gradDb.Pbr = updatedGrad.Pbr;
+                    gradDb.Naziv = updatedGrad.Naziv;
+                    gradDb.Zupanija = updatedGrad.Zupanija;
+
+                    await _context.SaveChangesAsync();
+                }
+
+                return gradDb;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        //public async Task DeleteGrad(int id)
+        //{
+        //    var grad = await GetGradById(id);
+        //    if (grad != null)
+        //    {
+        //        _context.SifrarnikGradovaZaPbrs.Remove(grad);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
+
+
+        public async Task DeleteGrad(SifrarnikGradovaZaPbr grad)
+        {
+            _context.SifrarnikGradovaZaPbrs.Remove(grad);
+            await _context.SaveChangesAsync();
         }
 
     }
