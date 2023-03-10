@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CityApi.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GradoviController : ControllerBase
     {
@@ -28,16 +28,9 @@ namespace CityApi.Controllers
             _mapper = mapper;
         }
 
-        // AutoMapper 12 with Profile
-        //private readonly IMapper _mapper;
-        //public GradoviController(IGradoviService gradoviService, IMapper mapper)
-        //{
-        //    _gradoviService = gradoviService;
-        //    _mapper = mapper;
-        //}
 
+        // GET: api/Gradovi
         [HttpGet]
-        //[Route("GetAll")]
         public async Task<IActionResult> GetAllGradovi()
         {
             try
@@ -58,41 +51,36 @@ namespace CityApi.Controllers
             }
         }
 
-        [HttpGet("GetGrad/{id}")]
+
+        // GET: api/Gradovi/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetGrad(int id)
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-
             try
             {
                 var gradDb = await _gradoviService.GetGradById(id);
-
                 if (gradDb == null)
                 {
                     return NotFound();
                 }
 
                 return Ok(_mapper.Map<SifrarnikGradovaZaPbrReadModel>(gradDb));
-
             }
-            catch (Exception)
+            catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
 
+        // POST: api/Gradovi
         [HttpPost]
-        [Route("Create")]
-        public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> CreateGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
+        public async Task<ActionResult<SifrarnikGradovaZaPbrReadModel>> PostGrad(SifrarnikGradovaZaPbrCreateModel createGradDto)
         {
             try
             {
                 var grad = _mapper.Map<SifrarnikGradovaZaPbr>(createGradDto);
-                var noviGrad = await _gradoviService.CreateGrad(grad);
+                var noviGrad = await _gradoviService.AddGrad(grad);
 
                 var gradReadDto = _mapper.Map<SifrarnikGradovaZaPbrReadModel>(noviGrad);
 
@@ -105,38 +93,26 @@ namespace CityApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateGrad(SifrarnikGradovaZaPbrUpdateModel updateGradDto)
-        {
-            try
-            {
-                var gradDb = _mapper.Map<SifrarnikGradovaZaPbr>(updateGradDto);
 
-                var grad = await _gradoviService.UpdateGrad(gradDb);
-                if (grad == null)
-                {
-                    return NotFound();
-                }
-                return Ok(grad);
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
+        // PUT: api/Gradovi/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGradById(int id, SifrarnikGradovaZaPbrUpdateModel updateGradDto)
+        public async Task<IActionResult> UpdateGrad(int id, SifrarnikGradovaZaPbrUpdateModel updateGradDto)
         {
+            if (id != updateGradDto.Id)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var grad = _mapper.Map<SifrarnikGradovaZaPbr>(updateGradDto);
-                grad.Id = id;
-                var updatedGrad = await _gradoviService.UpdateGradById(id, grad);
+
+                var updatedGrad = await _gradoviService.UpdateGrad(id, grad);
                 if (updatedGrad == null)
                 {
                     return NotFound();
                 }
+
                 return Ok(updatedGrad);
             }
             catch
@@ -146,45 +122,24 @@ namespace CityApi.Controllers
         }
 
 
-        //[HttpDelete("Delete/{id}")]
-        //public async Task<IActionResult> DeleteGrad(int id)
-        //{
-        //    var grad = await _gradoviService.GetGradById(id);
-        //    if (grad == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    try
-        //    {
-        //        await _gradoviService.DeleteGrad(id);
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //    return Ok();
-        //}
-
-
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGrad(int id)
         {
-            var grad = await _gradoviService.GetGradById(id);
-            if (grad == null)
-            {
-                return NotFound();
-            }
-
             try
             {
-                await _gradoviService.DeleteGrad(grad);
+                var deletedGrad = await _gradoviService.DeleteGrad(id);
+                if (deletedGrad == null)
+                {
+                    return NotFound();
+                }
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return Ok();
+            return NoContent();
         }
+
+
     }
 }
