@@ -41,7 +41,7 @@ namespace Repository
         {
             try
             {
-                return await _context.SifrarnikGradovaZaPbrs.FirstOrDefaultAsync(s => s.Id == id);
+                return await _context.SifrarnikGradovaZaPbrs.FindAsync(id);
             }
             catch
             {
@@ -49,7 +49,7 @@ namespace Repository
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad)
+        public async Task<SifrarnikGradovaZaPbr> AddGrad(SifrarnikGradovaZaPbr grad)
         {
             try
             {
@@ -63,19 +63,15 @@ namespace Repository
             }
         }
 
+
         public async Task<SifrarnikGradovaZaPbr> UpdateGrad(SifrarnikGradovaZaPbr updatedGrad)
         {
             try
             {
-                SifrarnikGradovaZaPbr gradDb = await _context.SifrarnikGradovaZaPbrs.FirstOrDefaultAsync(g => g.Id == updatedGrad.Id);
-
-                gradDb.Pbr = updatedGrad.Pbr;
-                gradDb.Naziv = updatedGrad.Naziv;
-                gradDb.Zupanija = updatedGrad.Zupanija;
-
-                _context.SifrarnikGradovaZaPbrs.Update(gradDb);
+                _context.Entry(updatedGrad).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return gradDb;
+
+                return updatedGrad;
             }
             catch
             {
@@ -83,44 +79,18 @@ namespace Repository
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> UpdateGradById(int id, SifrarnikGradovaZaPbr updatedGrad)
+
+        public async void DeleteGrad(SifrarnikGradovaZaPbr grad)
         {
             try
             {
-                var gradDb = await _context.SifrarnikGradovaZaPbrs.FirstOrDefaultAsync(g => g.Id == updatedGrad.Id);
-                if (gradDb != null)
-                {
-                    gradDb.Pbr = updatedGrad.Pbr;
-                    gradDb.Naziv = updatedGrad.Naziv;
-                    gradDb.Zupanija = updatedGrad.Zupanija;
-
-                    await _context.SaveChangesAsync();
-                }
-
-                return gradDb;
+                _context.SifrarnikGradovaZaPbrs.Remove(grad);
+                await _context.SaveChangesAsync();
             }
             catch
             {
-                return null;
+                return;
             }
-        }
-
-
-        //public async Task DeleteGrad(int id)
-        //{
-        //    var grad = await GetGradById(id);
-        //    if (grad != null)
-        //    {
-        //        _context.SifrarnikGradovaZaPbrs.Remove(grad);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
-
-
-        public async Task DeleteGrad(SifrarnikGradovaZaPbr grad)
-        {
-            _context.SifrarnikGradovaZaPbrs.Remove(grad);
-            await _context.SaveChangesAsync();
         }
 
     }
