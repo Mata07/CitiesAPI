@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CityApi.AutoMapper;
 using Hp.Data.Entities;
 using Hp.Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -19,13 +20,21 @@ namespace CityApi.Controllers
     public class GradoviController : ControllerBase
     {
         private readonly IGradoviService _gradoviService;
-        private readonly IMapper _mapper;
 
-        public GradoviController(IGradoviService gradoviService, IMapper mapper)
+        private readonly IControllerMappingService _mapper;
+        public GradoviController(IGradoviService gradoviService, IControllerMappingService mapper)
         {
             _gradoviService = gradoviService;
             _mapper = mapper;
         }
+
+        // AutoMapper 12 with Profile
+        //private readonly IMapper _mapper;
+        //public GradoviController(IGradoviService gradoviService, IMapper mapper)
+        //{
+        //    _gradoviService = gradoviService;
+        //    _mapper = mapper;
+        //}
 
         [HttpGet]
         //[Route("GetAll")]

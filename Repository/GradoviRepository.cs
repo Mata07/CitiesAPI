@@ -16,7 +16,7 @@ namespace Repository
         private readonly HpContext _context;
 
 
-        public GradoviRepository(HpContext context, IMapper mapper)
+        public GradoviRepository(HpContext context)
         {
             _context = context;
 

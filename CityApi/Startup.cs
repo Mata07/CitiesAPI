@@ -16,6 +16,7 @@ using Service;
 using Repository;
 using Service.Common;
 using Repository.Common;
+using CityApi.AutoMapper;
 
 namespace CityApi
 {
@@ -35,7 +36,10 @@ namespace CityApi
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
-            services.AddAutoMapper(typeof(Startup));                    // AutoMapper
+
+            //services.AddAutoMapper(typeof(Startup));                    // AutoMapper 12 or
+            services.AddScoped<IControllerMappingService, ControllerMappingService>();  // AutoMapper implementing custom interface
+
             services.AddScoped<IGradoviService, GradoviService>();
             services.AddScoped<IGradoviRepository, GradoviRepository>();
         }

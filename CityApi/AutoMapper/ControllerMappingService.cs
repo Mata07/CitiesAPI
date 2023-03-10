@@ -4,15 +4,25 @@ using Hp.Domain.Models;
 
 namespace CityApi.AutoMapper
 {
-    public class ControllerMappingService : Profile, IControllerMappingService
+    public class ControllerMappingService : IControllerMappingService
     {
-        public Mapper mapper;
+        public IMapper mapper;
         public ControllerMappingService()
         {
             var config = new MapperConfiguration
                 (cfg =>
                 {
                     cfg.CreateMap<SifrarnikGradovaZaPbr, SifrarnikGradovaZaPbrReadModel>();
+
+                    cfg.CreateMap<SifrarnikGradovaZaPbrCreateModel, SifrarnikGradovaZaPbr>();
+
+                    cfg.CreateMap<SifrarnikGradovaZaPbr, SifrarnikGradovaZaPbrUpdateModel>();
+
+                    cfg.CreateMap<SifrarnikGradovaZaPbrUpdateModel, SifrarnikGradovaZaPbr>();
+
+                    cfg.CreateMap<SifrarnikGradovaZaPbrReadModel, SifrarnikGradovaZaPbrUpdateModel>();
+
+                    cfg.CreateMap<SifrarnikGradovaZaPbrCreateModel, SifrarnikGradovaZaPbrReadModel>();
                 });
             mapper = new Mapper(config);
         }
@@ -23,3 +33,4 @@ namespace CityApi.AutoMapper
         }
     }
 }
+
