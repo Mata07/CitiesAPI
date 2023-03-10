@@ -44,11 +44,11 @@ namespace Service
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> CreateGrad(SifrarnikGradovaZaPbr grad)
+        public async Task<SifrarnikGradovaZaPbr> AddGrad(SifrarnikGradovaZaPbr grad)
         {
             try
             {
-                return await _gradoviRepository.CreateGrad(grad);
+                return await _gradoviRepository.AddGrad(grad);
             }
             catch
             {
@@ -56,11 +56,24 @@ namespace Service
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> UpdateGrad(SifrarnikGradovaZaPbr updatedGrad)
+
+
+        public async Task<SifrarnikGradovaZaPbr> UpdateGrad(int id, SifrarnikGradovaZaPbr updatedGrad)
         {
             try
             {
-                return await _gradoviRepository.UpdateGrad(updatedGrad);
+                var gradDb = await _gradoviRepository.GetGradById(id);
+                if (gradDb == null)
+                {
+                    return null;
+                }
+
+                gradDb.Pbr = updatedGrad.Pbr;
+                gradDb.Naziv = updatedGrad.Naziv;
+                gradDb.Zupanija = updatedGrad.Zupanija;
+
+                await _gradoviRepository.UpdateGrad(gradDb);
+                return gradDb;
             }
             catch
             {
@@ -68,27 +81,26 @@ namespace Service
             }
         }
 
-        public async Task<SifrarnikGradovaZaPbr> UpdateGradById(int id, SifrarnikGradovaZaPbr updatedGrad)
+        public async Task<SifrarnikGradovaZaPbr> DeleteGrad(int id)
         {
             try
             {
-                return await _gradoviRepository.UpdateGradById(id, updatedGrad);
+                var grad = await _gradoviRepository.GetGradById(id);
+                if (grad == null)
+                {
+                    return null;
+                }
+
+                _gradoviRepository.DeleteGrad(grad);
+                return grad;
             }
-            catch
+            catch 
             {
                 return null;
             }
         }
 
-        //public async Task DeleteGrad(int id)
-        //{
-        //   await _gradoviRepository.DeleteGrad(id);
-        //}
-
-        public async Task DeleteGrad(SifrarnikGradovaZaPbr grad)
-        {
-            await _gradoviRepository.DeleteGrad(grad);
-        }
+        
 
 
 
